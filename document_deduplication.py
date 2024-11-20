@@ -14,3 +14,15 @@ from sklearn.metrics import silhouette_score
 from collections import defaultdict
 from openai import OpenAI
 from docx import Document
+
+# Download necessary NLTK resources
+nltk.download('punkt')  #Used for tokenization
+nltk.download('stopwords')  #Used to download stopword corpus to filtering them out
+nltk.download('wordnet')    #Used for tasks like lemmatization (reducing words to their base or root form)
+
+# Clear the terminal screen based on OS type
+os.system('cls' if os.name == 'nt' else 'clear')
+
+# Initialize OpenAI client with API key
+key = str(input("Enter your Open AI API key: "))
+client = OpenAI(api_key = key)
