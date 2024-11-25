@@ -32,3 +32,12 @@ logging.basicConfig(
     level = logging.WARNING,  # Set logging level to WARNING to only display errors and warnings
     format = '%(asctime)s - %(levelname)s - %(message)s'
 )
+
+# Function to preprocess text
+def preprocess_text(text):
+    tokens = word_tokenize(text.lower())  # Tokenize text
+    stop_words = set(stopwords.words('english'))  # Get English stopwords
+    tokens = [token for token in tokens if token not in stop_words]  # Remove stopwords
+    lemmatizer = WordNetLemmatizer()  # Initialize lemmatizer
+    tokens = [lemmatizer.lemmatize(token) for token in tokens]  # Lemmatize tokens
+    return " ".join(tokens)  # Return preprocessed text as string (for TF-IDF)
