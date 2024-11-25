@@ -26,3 +26,9 @@ os.system('cls' if os.name == 'nt' else 'clear')
 # Initialize OpenAI client with API key
 key = str(input("Enter your Open AI API key: "))
 client = OpenAI(api_key = key)
+
+# Configure logging
+logging.basicConfig(
+    level = logging.WARNING,  # Set logging level to WARNING to only display errors and warnings
+    format = '%(asctime)s - %(levelname)s - %(message)s'
+)
