@@ -58,3 +58,25 @@ def read_docx_files(file_paths):
         text = docx2txt.process(file_path.strip())  # Extract text from DOCX
         documents.append(text)  # Add original text to list
     return documents
+
+# Function to summarize topics using OpenAI's API
+def summarize_topic(text):
+    summaries = []  #Initializes an empty list summaries to store the results of the API call
+
+    #Used to create a chat-based completion response from the API.
+    response = client.chat.completions.create(      
+        messages=[
+            {
+                "role": "system",
+                "content": "you are a helpful assistant."   #Provides background information or instructions to the model
+            },
+            {
+                "role": "assistant",   #Contains the prompt for the model. Prompt can be edited to suit different input cases
+                "content": f"Find the company based on these extracts from these documents: [ {text} ]. From these extracts, remove the duplicate sentences and consolidate into a single output. Start the answer with the company name and Deduplicated Extracts directly. No need to bold or italicise any text, output must be in format 'Company Name=' and 'Extract='. All extracts after deduplication must be included",
+            }
+        ],
+        model="gpt-4o-mini"
+    )
+    #Appends the response from the API to the summaries list
+    summaries.append(response.choices[0].message)       
+    return summaries
