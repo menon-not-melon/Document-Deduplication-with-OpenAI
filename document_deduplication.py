@@ -41,3 +41,12 @@ def preprocess_text(text):
     lemmatizer = WordNetLemmatizer()  # Initialize lemmatizer
     tokens = [lemmatizer.lemmatize(token) for token in tokens]  # Lemmatize tokens
     return " ".join(tokens)  # Return preprocessed text as string (for TF-IDF)
+
+# Function to read DOCX files from a list of file paths and preprocess them
+def read_and_preprocess_docx_files(file_paths):
+    documents = []
+    for file_path in file_paths:
+        text = docx2txt.process(file_path.strip())  # Extract text from DOCX
+        processed_text = preprocess_text(text)  # Preprocess extracted text
+        documents.append(processed_text)  # Add preprocessed text to list
+    return documents
