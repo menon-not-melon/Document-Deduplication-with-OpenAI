@@ -50,3 +50,11 @@ def read_and_preprocess_docx_files(file_paths):
         processed_text = preprocess_text(text)  # Preprocess extracted text
         documents.append(processed_text)  # Add preprocessed text to list
     return documents
+
+# Function to read DOCX files from a list of file paths without preprocessing
+def read_docx_files(file_paths):
+    documents = []
+    for file_path in file_paths:
+        text = docx2txt.process(file_path.strip())  # Extract text from DOCX
+        documents.append(text)  # Add original text to list
+    return documents
