@@ -92,3 +92,7 @@ def create_docx(file_name, content):       #Takes input of the file name string 
     
     # Save the document
     doc.save("Output/" + file_name + ".docx")
+
+# Function to remove non-alphanumeric characters from a string
+def remove_non_alphanumeric(input_string):
+    return ''.join(char for char in input_string if char.isalnum())
