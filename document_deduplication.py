@@ -80,3 +80,15 @@ def summarize_topic(text):
     #Appends the response from the API to the summaries list
     summaries.append(response.choices[0].message)       
     return summaries
+
+# Function to create a DOCX file with specified content
+def create_docx(file_name, content):       #Takes input of the file name string and the content string
+
+    #Creates a new Document object representing a new, empty word document from the python-docx library
+    doc = Document()       
+    
+    # Add content to the document
+    doc.add_paragraph(content)
+    
+    # Save the document
+    doc.save("Output/" + file_name + ".docx")
