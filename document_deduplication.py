@@ -96,3 +96,38 @@ def create_docx(file_name, content):       #Takes input of the file name string 
 # Function to remove non-alphanumeric characters from a string
 def remove_non_alphanumeric(input_string):
     return ''.join(char for char in input_string if char.isalnum())
+
+# Main execution starts here
+while True:
+    # Read the text file that contains file paths of input documents
+    input_path = input("Enter file path of text file containing file paths of input files, \nFor E.g: C:/Users/Downloads/file_paths.txt \n\nEnter file path: ")
+    docx_paths_file = input_path.replace('\\', '/')
+
+    try:
+        # Check if the file exists and is accessible
+        if os.path.exists(docx_paths_file):
+            with open(docx_paths_file, 'r') as f:   #Opens the file in read mode 
+                file_paths = f.readlines()  #Reads all lines from the file into a list
+                file_paths = [path.strip() for path in file_paths]  # Remove newline characters
+
+                # Check each file path in file_paths
+                all_paths_valid = True  #Used to track whether all file paths are valid
+                for path in file_paths:  
+                    if not os.path.exists(path):       #Checks if each path exists using os.path.exists
+                        all_paths_valid = False
+                        logging.error(f"Error: File path '{path}' does not exist or is not accessible.")
+                        break
+
+                if all_paths_valid:
+                    break  # Exit the loop if all paths are valid
+                else:
+                    logging.warning("Please enter a new docx_paths_file with valid file paths.")
+        else:
+            logging.error(f"Error: File '{docx_paths_file}' does not exist or is not accessible. Please try again.")
+            
+    except IOError as e:
+        # Raised when an I/O operation such as opening or reading a file fails
+        logging.error(f"Error: Unable to open file '{docx_paths_file}'. IOError: {e}")  
+    except Exception as e:
+        #Catches any exceptions that are derived from the base Exception class
+        logging.error(f"Error: An unexpected error occurred: {e}")
