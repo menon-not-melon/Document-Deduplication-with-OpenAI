@@ -135,3 +135,9 @@ while True:
 # Consolidate all documents into list of preprocessed text
 documents = read_and_preprocess_docx_files(file_paths)
 original_docs = read_docx_files(file_paths)
+
+# Initialize TF-IDF vectorizer
+vectorizer = TfidfVectorizer(max_features=1000,  # Limit the number of features to the top 1000 based on their TF-IDF scores.
+                             stop_words='english', # Exclude common English stop words which do not contribute much to the analysis.
+                             max_df=0.8, # Ignore terms that appear in more than 80% of the documents
+                             min_df=2)  # Include terms that appear in at least 2 documents.
