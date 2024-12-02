@@ -131,3 +131,7 @@ while True:
     except Exception as e:
         #Catches any exceptions that are derived from the base Exception class
         logging.error(f"Error: An unexpected error occurred: {e}")
+
+# Consolidate all documents into list of preprocessed text
+documents = read_and_preprocess_docx_files(file_paths)
+original_docs = read_docx_files(file_paths)
