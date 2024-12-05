@@ -141,3 +141,12 @@ vectorizer = TfidfVectorizer(max_features=1000,  # Limit the number of features 
                              stop_words='english', # Exclude common English stop words which do not contribute much to the analysis.
                              max_df=0.8, # Ignore terms that appear in more than 80% of the documents
                              min_df=2)  # Include terms that appear in at least 2 documents.
+
+# Fit and transform documents
+tfidf_matrix = vectorizer.fit_transform(documents)
+
+# Define range of k values to test for KMeans clustering
+k_values = range(2, 50)  # Test for k from 2 to 49
+
+# Initialize list to store silhouette scores for each k
+silhouette_scores = []
