@@ -150,3 +150,18 @@ k_values = range(2, 50)  # Test for k from 2 to 49
 
 # Initialize list to store silhouette scores for each k
 silhouette_scores = []
+
+# Iterate over each value of k
+for k in k_values:  #Specifies the number of clusters
+    # Fit KMeans clustering model
+    kmeans = KMeans(n_clusters=k,   #Specifies the number of clusters (k) to form.
+     random_state=42)  #Sets the seed for the random number generator to ensures that the results are reproducible. 
+    kmeans.fit(tfidf_matrix)    #Each row in this matrix represents a document and each column represents a term, with the values indicating the importance of each term in the document.
+    # Calculate silhouette score if more than one cluster is present
+    if len(np.unique(kmeans.labels_)) > 1:
+        # Compute the average silhouette score for the clustering
+        silhouette_avg = silhouette_score(tfidf_matrix, kmeans.labels_)
+        # Append the silhouette score to a list of scores
+        silhouette_scores.append(silhouette_avg)
+    else:
+        silhouette_scores.append(-1)  # Placeholder for single cluster scenario
