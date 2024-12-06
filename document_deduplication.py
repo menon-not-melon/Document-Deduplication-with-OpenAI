@@ -175,3 +175,23 @@ os.system('cls' if os.name == 'nt' else 'clear')
 # Print optimal number of clusters based on Silhouette method
 print(f'\nOptimal number of clusters based on Silhouette method: {optimal_clusters}')
 print()
+
+# Initialize KMeans with optimal number of clusters and fit the data
+kmeans = KMeans(n_clusters=optimal_clusters,     #Specifies the number of clusters
+ random_state=42)     #Sets the seed for the random number generator used in the initialization of cluster centroids.
+kmeans.fit(tfidf_matrix)
+
+# Retrieve cluster labels
+cluster_labels = kmeans.labels_
+
+# Map each document path to its cluster label
+
+# Initialize an empty dictionary to map file paths to their respective cluster labels
+document_cluster_map = {}
+# Loop through each file path and its index in the list of file paths
+for idx, file_path in enumerate(file_paths):
+    # Strip any leading/trailing whitespace from the file path and map it to the cluster label
+    document_cluster_map[file_path.strip()] = cluster_labels[idx]
+
+# Initialize defaultdict to store documents for each cluster
+cluster_documents = defaultdict(list)
