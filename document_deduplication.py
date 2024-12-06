@@ -165,3 +165,13 @@ for k in k_values:  #Specifies the number of clusters
         silhouette_scores.append(silhouette_avg)
     else:
         silhouette_scores.append(-1)  # Placeholder for single cluster scenario
+
+# Determine optimal number of clusters based on highest silhouette score
+optimal_clusters = np.argmax(silhouette_scores) + 2  # Add 2 because k_values start from 2
+
+# Clear the terminal screen again
+os.system('cls' if os.name == 'nt' else 'clear')
+
+# Print optimal number of clusters based on Silhouette method
+print(f'\nOptimal number of clusters based on Silhouette method: {optimal_clusters}')
+print()
