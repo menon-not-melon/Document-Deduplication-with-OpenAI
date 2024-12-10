@@ -195,3 +195,14 @@ for idx, file_path in enumerate(file_paths):
 
 # Initialize defaultdict to store documents for each cluster
 cluster_documents = defaultdict(list)
+
+# Organize documents into clusters based on labels
+for idx, file_path in enumerate(file_paths):
+    cluster_label = document_cluster_map[file_path.strip()]  # Get cluster label
+    document_content = original_docs[idx]  # Get original content of the document
+
+    # Append document content to corresponding cluster
+    cluster_documents[cluster_label].append(document_content)
+
+# Convert defaultdict to regular dictionary for easier manipulation
+cluster_documents = dict(cluster_documents)
