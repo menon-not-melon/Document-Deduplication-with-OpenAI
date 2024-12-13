@@ -218,3 +218,52 @@ for cluster_label, documents in cluster_documents.items():
     # Initialize set to store unique sentences
     unique_sentences = []
     seen_sentences = set()
+
+    # Remove duplicates and store unique sentences
+    for sentence in sentences:
+        # Check if the sentence has not been encountered before
+        if sentence not in seen_sentences:
+            # Add the unique sentence to the list of unique sentences
+            unique_sentences.append(sentence)
+            # Record the sentence as seen by adding it to the set
+            seen_sentences.add(sentence)
+
+    # Summarize topic using OpenAI API
+    summary = summarize_topic(unique_sentences)
+
+    # Extract company name and summary section from API response
+    # Check if the word "Extract" is present in the content of the first summary item
+    if "Extract" in summary[0].content:
+        # Split the content at the first occurrence of "Extract"
+        company_name_section, summary_section = summary[0].content.split("Extract", 1)
+        # Extract the part of the content before "Extract" and split it to find "Company Name"
+        company_name = company_name_section.split("Company Name")[1].strip()
+        # Remove non-alphanumeric characters from the company name
+        company_name = remove_non_alphanumeric(company_name)
+    else:
+        # Print an error message if the delimiter "Extract" is not found in the content
+        print("Error: Expected delimiter '\n\nExtract=' not found in content.")
+
+    # Generate filename and create a DOCX file with summarized content
+    file_name = company_name + "_Consolidated_Output"
+    create_docx(file_name, summary_section[1:])  # Exclude the initial delimiter
+
+    # Print saved message
+    print(f"Saved {file_name}.docx")
+    print()
+    
+    # Combine all unique sentences into a single string
+    cluster_text = " ".join(unique_sentences)
+    # Preprocess the combined text 
+    cluster_processed_text = preprocess_text(cluster_text)
+    # Transform the summary section into a TF-IDF vector
+    extract_tfidf = vectorizer.transform([summary_section])
+    # Transform the preprocessed cluster text into a TF-IDF vector using the vectorizer
+    cluster_tfidf = vectorizer.transform([cluster_processed_text])
+
+    # Checking the similarity score between consolidated doc and input docs involved
+    similarity_score_perc = cosine_similarity(extract_tfidf, cluster_tfidf)[0][0] * 100
+
+    print(f"Similarity Score for {file_name}.docx : {similarity_score_perc:.2f}%")
+    print("-" * 50)
+    print()
