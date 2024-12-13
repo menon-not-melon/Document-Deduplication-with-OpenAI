@@ -206,3 +206,15 @@ for idx, file_path in enumerate(file_paths):
 
 # Convert defaultdict to regular dictionary for easier manipulation
 cluster_documents = dict(cluster_documents)
+
+# Iterate through each cluster and process documents
+for cluster_label, documents in cluster_documents.items():
+    # Concatenate all documents into one large string
+    join_docs = " ".join(documents)
+    
+    # Tokenize into sentences
+    sentences = sent_tokenize(join_docs)
+
+    # Initialize set to store unique sentences
+    unique_sentences = []
+    seen_sentences = set()
